@@ -16,9 +16,8 @@ SRCS += recallocarray.c strtonum.c
 # string
 SRCS += strmode.c
 # util
+# Most programs that require libutil only use fmt_scaled().
 SRCS += fmt_scaled.c
-
-CLEANFILES += *.d
 
 .include "../mk.config"
 .include <bsd.lib.mk>
