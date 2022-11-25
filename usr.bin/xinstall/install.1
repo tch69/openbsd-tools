@@ -40,7 +40,6 @@
 .Nm install
 .Op Fl bCcDdFpSs
 .Op Fl B Ar suffix
-.Op Fl f Ar flags
 .Op Fl g Ar group
 .Op Fl m Ar mode
 .Op Fl o Ar owner
@@ -111,12 +110,6 @@ When copying a file, use the
 .Xr fsync 2
 function to synchronize the installed file's contents with the
 on-disk version.
-.It Fl f Ar flags
-Specify the target's file
-.Ar flags .
-(See
-.Xr chflags 1
-for a list of possible flags and their meanings.)
 .It Fl g Ar group
 Specify a
 .Ar group .
@@ -188,7 +181,6 @@ Temporary files created in the target directory by
 .Sh EXIT STATUS
 .Ex -std install
 .Sh SEE ALSO
-.Xr chflags 1 ,
 .Xr chgrp 1 ,
 .Xr chmod 1 ,
 .Xr cp 1 ,
