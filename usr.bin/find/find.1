@@ -264,23 +264,6 @@ The filename substituted for the string
 .Qq {}
 is not qualified.
 .Pp
-.It Xo
-.Ic -flags
-.Oo - Oc Ns Ar flags
-.Xc
-The
-.Ar flags
-are comma-separated symbolic file flags (see
-.Xr chflags 1
-for a list of valid flag names).
-If the flags are preceded by a dash
-.Pq Sq - ,
-this primary evaluates to true if at least all specified
-.Ar flags
-are set in the file's flags.
-If the flags are not preceded by a dash, this primary evaluates to true if the
-flags specified exactly match those of the file.
-.Pp
 .It Ic -follow
 This primary always evaluates to true.
 The same as specifying the
@@ -585,7 +568,6 @@ directory:
 or
 .Dl "$ find . \e( -name \e*.jpg -o -name \e*.gif \e) -delete"
 .Sh SEE ALSO
-.Xr chflags 1 ,
 .Xr chmod 1 ,
 .Xr locate 1 ,
 .Xr ls 1 ,
@@ -613,7 +595,6 @@ primaries
 .Ic -delete ,
 .Ic -empty ,
 .Ic -execdir ,
-.Ic -flags ,
 .Ic -follow ,
 .Ic -fstype ,
 .Ic -iname ,
