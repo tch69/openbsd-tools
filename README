@@ -3,4 +3,5 @@ This is (yet another) port of (mostly)* OpenBSD tools to Linux.
 * - ls(1) is taken from the Heirloom Project.
   - echo(1) is taken from illumos.
 
-Files in libopenbsd/compat were taken from [lobase](https://github.com/duncaen/lobase).
+Files in libopenbsd/compat were taken directly from lobase
+(https://github.com/duncaen/lobase).

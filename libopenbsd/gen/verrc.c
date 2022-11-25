@@ -36,6 +36,8 @@
 
 #include <compat.h>
 
+extern char *__progname;
+
 __dead void
 verrc(int eval, int code, const char *fmt, va_list ap)
 {

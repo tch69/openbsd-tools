@@ -36,6 +36,8 @@
 
 #include <compat.h>
 
+extern char *__progname;
+
 void
 vwarnc(int code, const char *fmt, va_list ap)
 {

@@ -3,6 +3,15 @@
 #define __dead __attribute__((noreturn))
 #endif
 
+#ifndef __unused
+#define __unused __attribute__((unused))
+#endif
+
+extern char *__progname;
+
+
+#define MAKE_CLONE(x,y) typeof(x) x __attribute__((alias (#y)))
+
 #ifdef _SYS_PARAM_H
 #if defined(__aarch64__)
 #define ALIGNBYTES	(sizeof(long) - 1)
@@ -91,6 +100,9 @@ int openbsd_statfs(const char *, struct openbsd_statfs *);
 
 #ifdef _SYS_STAT_H
 #define S_ISTXT 	S_ISVTX
+#define S_BLKSIZE 512
+
+#define ACCESSPERMS 	(S_IRWXU|S_IRWXG|S_IRWXO) /* 00777 */
 #define DEFFILEMODE 	(S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)
 
 #define st_atimespec 	st_atim
@@ -135,10 +147,27 @@ void		warnx(const char *, ...)
 			__attribute__((__format__ (printf, 1, 2)));
 #endif
 
+#ifdef _ERRNO_H
+#define EFTYPE ENOTSUP
+#endif
+
+#ifdef _FCNTL_H
+#ifdef __OpenBSD_open
+#define open openbsd_open
+
+#define O_EXLOCK 10000000
+#define O_SHLOCK 20000000
+#endif /* __OpenBSD_open */
+#endif
+
 #ifdef _GRP_H
 #define GID_MAX UINT_MAX
 int 		gid_from_group(const char *, gid_t *);
 const char 	*group_from_gid(gid_t, int);
+#endif
+
+#ifdef _PATHS_H
+#define _PATH_DEVDB "/var/run/dev.db"
 #endif
 
 #ifdef _PWD_H
@@ -147,14 +176,22 @@ int		uid_from_user(const char *, uid_t *);
 const char	*user_from_uid(uid_t, int);
 #endif
 
+#ifdef _REGEX_H
+#define REG_BASIC 	0000
+#define REG_STARTEND 	00004
+#endif
+
 #ifdef _SIGNAL_H
 #define SIGINFO SIGUSR1
+extern const char *const sys_signame[_NSIG];
 #endif
 
 #ifdef _STDLIB_H
-/* This is always defined */
-extern 	char 	*__progname;
-
+#ifdef _SYS_STAT_H
+char 	*devname(dev_t, mode_t);
+#endif
+int		heapsort(void *, size_t, size_t, int (*)(const void *, const void *));
+int		mergesort(void *, size_t, size_t, int (*)(const void *, const void *));
 char 		*getbsize(int *, long *);
 void 		*recallocarray(void *, size_t, size_t, size_t);
 long long 	strtonum(const char *, long long, long long, const char **);
@@ -174,4 +211,8 @@ void 	strmode(int, char*);
 mode_t 	getmode(const void *, mode_t);
 void 	*setmode(const char *);
 #endif
+#endif
+
+#ifdef _WCHAR_H
+wchar_t *fgetwln(FILE * __restrict, size_t * __restrict);
 #endif

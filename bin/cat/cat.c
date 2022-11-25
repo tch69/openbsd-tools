@@ -45,8 +45,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <compat.h>
-
 #define MAXIMUM(a, b)	(((a) > (b)) ? (a) : (b))
 
 int bflag, eflag, nflag, sflag, tflag, vflag;
@@ -85,6 +83,8 @@ main(int argc, char *argv[])
 			vflag = 1;
 			break;
 		default:
+			extern char *__progname;
+
 			fprintf(stderr, "usage: %s [-benstuv] [file ...]\n",
 			    __progname);
 			return 1;

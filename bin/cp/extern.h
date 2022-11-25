@@ -42,7 +42,6 @@ extern PATH_T to;
 extern uid_t myuid;
 extern int fflag, iflag, pflag;
 extern mode_t myumask;
-extern char *__progname;
 
 int	copy_fifo(struct stat *, int);
 int	copy_file(FTSENT *, int);
