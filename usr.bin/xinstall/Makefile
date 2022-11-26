@@ -6,7 +6,7 @@ MAN=	install.1
 LDADD = ${LIBOPENBSD}
 
 realinstall:
-	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} \
+	${INSTALL} -c -s \
 	    -o ${BINOWN} -g ${BINGRP} \
 	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/install
 

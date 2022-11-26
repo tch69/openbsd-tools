@@ -2,10 +2,10 @@
 
 PROG=	diff3prog
 MAN=	diff3.1
-BINDIR=	/usr/libexec
+BINDIR=	${LIBEXECDIR}
 
 beforeinstall:
 	install ${INSTALL_COPY}c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
-	    ${.CURDIR}/diff3.ksh ${DESTDIR}/usr/bin/diff3
+	    ${.CURDIR}/diff3.ksh ${DESTDIR}/${PREFIX}/bin/diff3
 
 .include <bsd.prog.mk>
