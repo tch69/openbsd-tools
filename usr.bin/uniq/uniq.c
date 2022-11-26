@@ -114,9 +114,6 @@ main(int argc, char *argv[])
 			err(1, "%s", argv[1]);
 	}
 
-	if (pledge("stdio", NULL) == -1)
-		err(1, "pledge");
-
 	prevsize = 0;
 	prevline = NULL;
 	if ((len = getline(&prevline, &prevsize, stdin)) == -1) {
