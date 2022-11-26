@@ -5,7 +5,7 @@ MAN=	diff3.1
 BINDIR=	${LIBEXECDIR}
 
 beforeinstall:
-	install ${INSTALL_COPY}c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
+	install -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
 	    ${.CURDIR}/diff3.ksh ${DESTDIR}/${PREFIX}/bin/diff3
 
 .include <bsd.prog.mk>

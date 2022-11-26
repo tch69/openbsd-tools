@@ -531,7 +531,7 @@ strip(char *to_name)
 		(void)unlink(to_name);
 		errc(1, serrno, "forks");
 	case 0:
-		execl(path_strip, "strip", "--strip-unsigned", "--", to_name, (char *)NULL);
+		execl(path_strip, "strip", "--strip-unneeded", "--", to_name, (char *)NULL);
 		warn("%s", path_strip);
 		_exit(1);
 	default:
