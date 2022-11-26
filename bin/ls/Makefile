@@ -2,7 +2,7 @@
 
 PROG=	ls
 SRCS=	cmp.c ls.c main.c print.c util.c utf8.c
-DPADD= ${LIBUTIL}
-LDADD= -lutil
+
+LDADD= ${LIBOPENBSD}
 
 .include <bsd.prog.mk>
