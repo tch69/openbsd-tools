@@ -54,6 +54,8 @@ void cat_file(const char *);
 void cook_buf(FILE *, const char *);
 void raw_cat(int, const char *);
 
+extern char *__progname;
+
 int
 main(int argc, char *argv[])
 {
@@ -83,8 +85,6 @@ main(int argc, char *argv[])
 			vflag = 1;
 			break;
 		default:
-			extern char *__progname;
-
 			fprintf(stderr, "usage: %s [-benstuv] [file ...]\n",
 			    __progname);
 			return 1;
