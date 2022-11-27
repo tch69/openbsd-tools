@@ -47,7 +47,7 @@
 #include <db.h>
 #include "hash.h"
 #include "page.h"
-#include "extern.h"
+#include "hash_extern.h"
 
 #include <compat.h>
 
