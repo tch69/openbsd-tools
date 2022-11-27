@@ -181,6 +181,10 @@ const char	*user_from_uid(uid_t, int);
 #define REG_STARTEND 	00004
 #endif
 
+#ifdef _RESOLV_H
+int b64_ntop(unsigned char const *, size_t, char *, size_t);
+#endif
+
 #ifdef _SIGNAL_H
 #define SIGINFO SIGUSR1
 extern const char *const sys_signame[_NSIG];

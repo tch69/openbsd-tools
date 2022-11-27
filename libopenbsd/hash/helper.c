@@ -1,4 +1,4 @@
-/*	$OpenBSD: helper.c,v 1.17 2017/10/23 14:33:07 millert Exp $ */
+/*	$OpenBSD: helper.c,v 1.18 2019/06/28 13:32:41 deraadt Exp $ */
 
 /*
  * Copyright (c) 2000 Poul-Henning Kamp <phk@FreeBSD.org>
@@ -31,22 +31,22 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <md5.h>
+#include <hashinc>
 
 #define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
 
 char *
-MD5End(MD5_CTX *ctx, char *buf)
+HASHEnd(HASH_CTX *ctx, char *buf)
 {
 	int i;
-	u_int8_t digest[MD5_DIGEST_LENGTH];
+	u_int8_t digest[HASH_DIGEST_LENGTH];
 	static const char hex[] = "0123456789abcdef";
 
-	if (buf == NULL && (buf = malloc(MD5_DIGEST_STRING_LENGTH)) == NULL)
+	if (buf == NULL && (buf = malloc(HASH_DIGEST_STRING_LENGTH)) == NULL)
 		return (NULL);
 
-	MD5Final(digest, ctx);
-	for (i = 0; i < MD5_DIGEST_LENGTH; i++) {
+	HASHFinal(digest, ctx);
+	for (i = 0; i < HASH_DIGEST_LENGTH; i++) {
 		buf[i + i] = hex[digest[i] >> 4];
 		buf[i + i + 1] = hex[digest[i] & 0x0f];
 	}
@@ -56,17 +56,17 @@ MD5End(MD5_CTX *ctx, char *buf)
 }
 
 char *
-MD5FileChunk(const char *filename, char *buf, off_t off, off_t len)
+HASHFileChunk(const char *filename, char *buf, off_t off, off_t len)
 {
 	struct stat sb;
 	u_char buffer[BUFSIZ];
-	MD5_CTX ctx;
+	HASH_CTX ctx;
 	int fd, save_errno;
 	ssize_t nr;
 
-	MD5Init(&ctx);
+	HASHInit(&ctx);
 
-	if ((fd = open(filename, O_RDONLY)) < 0)
+	if ((fd = open(filename, O_RDONLY)) == -1)
 		return (NULL);
 	if (len == 0) {
 		if (fstat(fd, &sb) == -1) {
@@ -77,7 +77,7 @@ MD5FileChunk(const char *filename, char *buf, off_t off, off_t len)
 		}
 		len = sb.st_size;
 	}
-	if (off > 0 && lseek(fd, off, SEEK_SET) < 0) {
+	if (off > 0 && lseek(fd, off, SEEK_SET) == -1) {
 		save_errno = errno;
 		close(fd);
 		errno = save_errno;
@@ -85,7 +85,7 @@ MD5FileChunk(const char *filename, char *buf, off_t off, off_t len)
 	}
 
 	while ((nr = read(fd, buffer, MINIMUM(sizeof(buffer), len))) > 0) {
-		MD5Update(&ctx, buffer, nr);
+		HASHUpdate(&ctx, buffer, nr);
 		if (len > 0 && (len -= nr) == 0)
 			break;
 	}
@@ -93,21 +93,21 @@ MD5FileChunk(const char *filename, char *buf, off_t off, off_t len)
 	save_errno = errno;
 	close(fd);
 	errno = save_errno;
-	return (nr < 0 ? NULL : MD5End(&ctx, buf));
+	return (nr == -1 ? NULL : HASHEnd(&ctx, buf));
 }
 
 char *
-MD5File(const char *filename, char *buf)
+HASHFile(const char *filename, char *buf)
 {
-	return (MD5FileChunk(filename, buf, 0, 0));
+	return (HASHFileChunk(filename, buf, 0, 0));
 }
 
 char *
-MD5Data(const u_char *data, size_t len, char *buf)
+HASHData(const u_char *data, size_t len, char *buf)
 {
-	MD5_CTX ctx;
+	HASH_CTX ctx;
 
-	MD5Init(&ctx);
-	MD5Update(&ctx, data, len);
-	return (MD5End(&ctx, buf));
+	HASHInit(&ctx);
+	HASHUpdate(&ctx, data, len);
+	return (HASHEnd(&ctx, buf));
 }

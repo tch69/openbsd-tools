@@ -8,6 +8,7 @@ COPTS += -Ihidden -Iinclude -I../include
 .include "db/Makefile.inc"
 .include "gen/Makefile.inc"
 .include "hash/Makefile.inc"
+.include "net/Makefile.inc"
 .include "stdio/Makefile.inc"
 .include "stdlib/Makefile.inc"
 .include "string/Makefile.inc"

@@ -51,7 +51,7 @@
 #define DEF_FORMAT \
 	"%d %i %Sp %l %Su %Sg %r %z \"%Sa\" \"%Sm\" \"%Sc\" " \
 	"%k %b %N"
-#define RAW_FORMAT      "%d %i %#p %l %u %g %r %z %a %m %c " \
+#define RAW_FORMAT	"%d %i %#p %l %u %g %r %z %a %m %c " \
 	"%k %b %N"
 #define LS_FORMAT	"%Sp %l %Su %Sg %Z %Sm %N%SY"
 #define LSF_FORMAT	"%Sp %l %Su %Sg %Z %Sm %N%T%SY"
@@ -122,7 +122,6 @@
 #define SHOW_st_atime	'a'
 #define SHOW_st_mtime	'm'
 #define SHOW_st_ctime	'c'
-#define SHOW_st_btime	'B'
 #define SHOW_st_size	'z'
 #define SHOW_st_blocks	'b'
 #define SHOW_st_blksize	'k'
@@ -148,8 +147,6 @@ char *timefmt;
 		(void)fputc((c), (s)); \
 		(*nl) = ((c) == '\n'); \
 	} while (0/*CONSTCOND*/)
-
-extern char *__progname;
 
 int
 main(int argc, char *argv[])
@@ -442,7 +439,6 @@ output(const struct stat *st, const char *file,
 			fmtcase(what, SHOW_st_atime);
 			fmtcase(what, SHOW_st_mtime);
 			fmtcase(what, SHOW_st_ctime);
-			fmtcase(what, SHOW_st_btime);
 			fmtcase(what, SHOW_st_size);
 			fmtcase(what, SHOW_st_blocks);
 			fmtcase(what, SHOW_st_blksize);
@@ -485,7 +481,7 @@ format1(const struct stat *st,
     int flags, int size, int prec, int ofmt,
     int hilo, int what)
 {
-	uint64_t data;
+	u_int64_t data;
 	char lfmt[24], tmp[20];
 	char smode[12], sid[12], path[PATH_MAX + 4];
 	const char *sdata;
@@ -622,7 +618,14 @@ format1(const struct stat *st,
 			secs = st->st_ctime;
 			nsecs = st->st_ctimensec;
 		}
-	
+		/* FALLTHROUGH */
+	/* case SHOW_st_btime:
+		if (!gottime) {
+			gottime = 1;
+			secs = st->__st_birthtimespec.tv_sec;
+			nsecs = st->__st_birthtimespec.tv_nsec;
+		}
+		*/
 		small = (sizeof(secs) == 4);
 		data = secs;
 		small = 1;
